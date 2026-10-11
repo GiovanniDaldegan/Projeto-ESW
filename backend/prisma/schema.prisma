@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Usuario {
+  id       Int       @id @default(autoincrement())
+  nome     String
+  email    String    @unique
+  senha    String
+  projetos Projeto[]
+}
+
+model Projeto {
+  id        Int       @id @default(autoincrement())
+  nome      String
+  idUsuario Int       
+  usuario   Usuario   @relation(fields: [idUsuario], references: [id], onDelete: Cascade)
+  backlogs  Backlog[]
+  epicos    Epico[]
+}
+
+model Backlog {
+  id               Int                @id @default(autoincrement())
+  idProjeto        Int                
+  projeto          Projeto            @relation(fields: [idProjeto], references: [id], onDelete: Cascade)
+  nome             String
+  sprint           Boolean            @default(false)
+  init             DateTime?
+  finish           DateTime?
+  historiasUsuario HistoriaUsuario[]
+}
+
+model Epico {
+  id               Int                @id @default(autoincrement())
+  idProjeto        Int                
+  projeto          Projeto            @relation(fields: [idProjeto], references: [id], onDelete: Cascade)
+  nome             String
+  historiasUsuario HistoriaUsuario[]
+}
+
+model HistoriaUsuario {
+  id                 Int                 @id @default(autoincrement())
+  idEpico            Int?                @map("id_epico")
+  epico              Epico?              @relation(fields: [idEpico], references: [id], onDelete: SetNull)
+  idBacklog          Int                 @map("id_backlog")
+  backlog            Backlog             @relation(fields: [idBacklog], references: [id], onDelete: Cascade)
+  historia           String
+  mscw               String?             // tem q ser m, s, c ou w
+  storyPoints        Float?              
+  reach              Float?
+  impact             Float?
+  confidence         Float?
+  rice               Float?
+  criteriosAceitacao CriterioAceitacao[]
+}
+
+model CriterioAceitacao {
+  id              Int             @id @default(autoincrement())
+  idHu            Int             @map("id_hu")
+  historiaUsuario HistoriaUsuario @relation(fields: [idHu], references: [id], onDelete: Cascade)
+  dado            String
+  quando          String
+  entao           String
+}
