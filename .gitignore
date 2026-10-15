@@ -1,4 +1,4 @@
-# gitignore considerando desenvolvimento com: Next.js, NestJS
+# gitignore considerando desenvolvimento com: Next.js, NestJS, Prisma (SQLite)
 
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
@@ -53,3 +53,11 @@ lerna-debug.log*
 
 # vercel
 .vercel
+
+# Prisma
+*/generated/prisma
+*/prisma/generated
+
+# SQLite
+.db
+.db-journal
