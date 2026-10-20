@@ -17,11 +17,25 @@ Trabalho prático da disciplina Engenharia de Software, UnB 2026/2
 
 ```
 /Projeto-ESW
-├── documentos
+├── .gitignore                              # arquivos e diretórios ignorados
+├── LICENSE                                 # licença de uso do software
 │
-├── frontend
+├── documentos/
+│   └── <documento>                         # documento PDF do projeto
 │
-└── backend
+├── frontend/
+│
+└── backend/
+    ├── main.ts                             # script principal da aplicação
+    ├── app.module.ts                       # inclusão de módulos do back
+    │
+    └── <modulo>/                           # diretório de módulo
+        ├── <modulo>.controller.ts          # controlador do módulo
+        ├── <modulo>.module.ts              # declaração do módulo
+        ├── <modulo>.service.ts             # métodos do módulo
+        │
+        └── dto/                         
+            └── <metodo>-<modulo>.dto.ts    # definição de método CRUD do módulo
 ```
 
 ## Política de mudanças
