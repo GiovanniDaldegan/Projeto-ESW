@@ -5,6 +5,7 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { ProjetoModule } from './projeto/projeto.module';
 import { EpicoModule } from './epico/epico.module';
 import { HistoriaUsuarioModule } from './historia-usuario/historia-usuario.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { HistoriaUsuarioModule } from './historia-usuario/historia-usuario.modul
     ProjetoModule,
     EpicoModule,
     HistoriaUsuarioModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
