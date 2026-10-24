@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsuarioModule } from './usuario/usuario.module';
+import { ProjetoModule } from './projeto/projeto.module';
+import { EpicoModule } from './epico/epico.module';
+import { HistoriaUsuarioModule } from './historia-usuario/historia-usuario.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -11,6 +14,9 @@ import { AuthModule } from './auth/auth.module';
     }),
     PrismaModule,
     UsuarioModule,
+    ProjetoModule,
+    EpicoModule,
+    HistoriaUsuarioModule,
     AuthModule,
   ],
 })
