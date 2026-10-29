@@ -17,25 +17,38 @@ Trabalho prático da disciplina Engenharia de Software, UnB 2026/2
 
 ```
 /Projeto-ESW
-├── .gitignore                              # arquivos e diretórios ignorados
-├── LICENSE                                 # licença de uso do software
+├── .gitignore                               # arquivos e diretórios ignorados
+├── LICENSE                                  # licença de uso do software
 │
 ├── documentos/
-│   └── <documento>                         # documento PDF do projeto
+│   └── <documento>                          # documento PDF do projeto
 │
 ├── frontend/
+│   ├── .gitignore                           # gitignore exclusivo do frontend
+│   │
+│   ├── app/                                 # roteador da aplicação
+│   ├── public/                              # assets estáticos
+│   │
+│   ├── pages/                               # documento PDF do projeto
+│   │   └── pagina-app/
+│   │       └── page.tsx                     # página roteada para pagina-app
+│   │
+│   └── components/                          # componentes React
+│       └── <grupo>/
+│           └── <componente-massa>.tsx       # componente relacionado a <grupo>
 │
 └── backend/
-    ├── main.ts                             # script principal da aplicação
-    ├── app.module.ts                       # inclusão de módulos do back
+    ├── main.ts                              # script principal da aplicação
+    ├── app.module.ts                        # inclusão de módulos do back
+    ├── .gitignore                           # gitignore exclusivo do backend
     │
-    └── <modulo>/                           # diretório de módulo
-        ├── <modulo>.controller.ts          # controlador do módulo
-        ├── <modulo>.module.ts              # declaração do módulo
-        ├── <modulo>.service.ts             # métodos do módulo
+    └── <modulo>/                            # diretório de módulo
+        ├── <modulo>.controller.ts           # controlador do módulo
+        ├── <modulo>.module.ts               # declaração do módulo
+        ├── <modulo>.service.ts              # métodos do módulo
         │
-        └── dto/                         
-            └── <metodo>-<modulo>.dto.ts    # definição de método CRUD do módulo
+        └── dto/                             # data transfer objects
+            └── <metodo>-<modulo>.dto.ts     # definição de método CRUD do módulo
 ```
 
 ## Política de mudanças
