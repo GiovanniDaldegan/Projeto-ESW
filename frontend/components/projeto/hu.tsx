@@ -1,4 +1,5 @@
 interface HUProps {
+  huId: number;
   huName: string;
   huDescr: string;
   huTag: string;
@@ -10,6 +11,7 @@ interface HUProps {
 }
 
 export default function HU({
+  huId,
   huName,
   huDescr,
   huTag,
@@ -22,7 +24,7 @@ export default function HU({
   return (
     <div className="hu">
       <p className="name-hu">{huName}</p>
-      <p className="descr-hu">{huDescr}</p>
+      <p className="description-hu">{huDescr}</p>
       <span className="tag-hu">{huTag}</span>
       <span className="points-hu">{huPoints}</span>
       <span className="rice-hu">

@@ -5,7 +5,7 @@ import HU from "@/components/projeto/hu";
 interface BacklogProps {
   backlogId: number;
   backlogName: string;
-  backlogDescr: string;
+  backlogDescription: string;
   isProdBacklog: boolean;
   huList: [];
 }
@@ -13,21 +13,24 @@ interface BacklogProps {
 export default function Backlog({
   backlogId,
   backlogName,
-  backlogDescr,
+  backlogDescription,
   isProdBacklog,
   huList,
 }: BacklogProps) {
   return (
     <div className="backlog">
       <p className="name-backlog">{backlogName}</p>
-      <p className="descr-backlog">{backlogDescr}</p>
+      <p className="description-backlog">{backlogDescription}</p>
       <p className="count-backlog">16</p>
 
       <button className="edit-backlog">Editar</button>
-      {!isProdBacklog && <button className="del-backlog">Excluir</button>}
+      {!isProdBacklog && (
+        <button className="button-delete-backlog">Excluir</button>
+      )}
 
       {HU({
         // placeholder
+        huId: 1,
         huName: "1",
         huDescr: " 1",
         huTag: "Must Have",

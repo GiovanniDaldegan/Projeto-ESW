@@ -1,13 +1,18 @@
 interface EpicProps {
+  epicId: number;
   epicTitle: string;
-  epicDescr: string;
+  epicDescription: string;
 }
 
-export default function Epic({ epicTitle, epicDescr }: EpicProps) {
+export default function Epic({
+  epicId,
+  epicTitle,
+  epicDescription,
+}: EpicProps) {
   return (
-    <div className="Epic">
-      <p className="TitleEpic">{epicTitle}</p>
-      <p className="DescrEpic">{epicDescr}</p>
+    <div className="epic">
+      <p className="title-epic">{epicTitle}</p>
+      <p className="description-epic">{epicDescription}</p>
     </div>
   );
 }

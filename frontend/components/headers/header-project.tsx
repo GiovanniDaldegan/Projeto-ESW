@@ -1,13 +1,19 @@
 interface HeaderProjectProps {
+  projectId: number;
   projectName: string;
+  projectDescription: string;
 }
 
-export default function HeaderProject({ projectName }: HeaderProjectProps) {
+export default function HeaderProject({
+  projectId,
+  projectName,
+  projectDescription,
+}: HeaderProjectProps) {
   return (
     <div className="header-project">
-      <button>Projetos</button>
-      <h1>{projectName}</h1>
-      <p>Descrição do Projeto #1</p>
+      <button className="button-back">Projetos</button>
+      <h1 className="name-project">{projectName}</h1>
+      <p className="description-project">{projectDescription}</p>
     </div>
   );
 }

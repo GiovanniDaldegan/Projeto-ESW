@@ -11,12 +11,14 @@ export default function PanelBacklog({ backlogList }: PanelBacklogProps) {
         // placeholder
         backlogId: 1,
         backlogName: "Product Backlog",
-        backlogDescr: "Muito top backlog",
+        backlogDescription: "Muito top backlog",
         isProdBacklog: true,
         huList: [],
       })}
 
       {/* colunas backlogs */}
+
+      <button className="button-new-backlog">+ Novo Backlog</button>
     </div>
   );
 }

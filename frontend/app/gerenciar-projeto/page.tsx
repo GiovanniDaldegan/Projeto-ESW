@@ -15,7 +15,9 @@ export default function Page() {
 
         {/* TODO: instanciar com nome de projeto */}
         {HeaderProject({
+          projectId: 0,
           projectName: "PLACEHOLDER",
+          projectDescription: "Descrição placeholder muito top.",
         })}
       </header>
 
