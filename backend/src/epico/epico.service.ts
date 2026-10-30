@@ -18,8 +18,9 @@ export class EpicoService {
     });
   }
 
-  async getAll() {
+  async getAll(idProjeto?: number) {
     return this.prisma.epico.findMany({
+      where: { idProjeto },
       orderBy: { id: 'asc' },
     });
   }

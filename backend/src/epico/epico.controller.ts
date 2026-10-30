@@ -7,6 +7,7 @@ import {
   Delete,
   Param,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { EpicoService } from './epico.service';
 import { CreateEpicoDto } from './dto/create-epico.dto';
@@ -22,8 +23,10 @@ export class EpicoController {
   }
 
   @Get()
-  async getAll() {
-    return this.epicoService.getAll();
+  async getAll(
+    @Query('idProjeto', new ParseIntPipe({ optional: true })) idProjeto?: number,
+  ) {
+    return this.epicoService.getAll(idProjeto);
   }
 
   @Get(':id')
