@@ -22,8 +22,9 @@ export class HistoriaUsuarioService {
     });
   }
 
-  async getAll() {
+  async getAll(idBacklog?: number, idEpico?: number) {
     return this.prisma.historiaUsuario.findMany({
+      where: { idBacklog, idEpico },
       orderBy: { id: 'asc' },
     });
   }
