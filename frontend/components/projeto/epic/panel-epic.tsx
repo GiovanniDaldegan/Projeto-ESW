@@ -1,5 +1,7 @@
+import Epic, { EpicType } from "./epic";
+
 interface PanelEpicProps {
-  epicList: [];
+  epicList: EpicType[];
 }
 
 export default function PanelEpic({ epicList }: PanelEpicProps) {
@@ -8,7 +10,9 @@ export default function PanelEpic({ epicList }: PanelEpicProps) {
       <h2 className="epics">Épicos</h2>
       <button className="button-new-epic">+ Novo</button>
 
-      {/* N epicos */}
+      {epicList.map((epic) => (
+        <Epic key={epic.id} epic={epic} />
+      ))}
     </div>
   );
 }

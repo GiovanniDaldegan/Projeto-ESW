@@ -1,24 +1,24 @@
-import Backlog from "@/components/projeto/backlog/backlog";
+import Backlog, { BacklogType } from "./backlog";
 
 interface PanelBacklogProps {
-  backlogList: [];
+  backlogList: BacklogType[];
 }
 
 export default function PanelBacklog({ backlogList }: PanelBacklogProps) {
   return (
     <div className="panel-backlog">
-      {Backlog({
-        // placeholder
-        backlogId: 1,
-        backlogName: "Product Backlog",
-        backlogDescription: "Muito top backlog",
-        isProdBacklog: true,
-        huList: [],
-      })}
+      {backlogs.map((backlog) => (
+        <Backlog key={backlog.id} backlog={backlog} />
+      ))}
 
-      {/* colunas backlogs */}
-
-      <button className="button-new-backlog">+ Novo Backlog</button>
+      <button
+        className="button-new-backlog"
+        onClick={() => {
+          // TODO: instanciar modal de novo backlog
+        }}
+      >
+        + Novo Backlog
+      </button>
     </div>
   );
 }

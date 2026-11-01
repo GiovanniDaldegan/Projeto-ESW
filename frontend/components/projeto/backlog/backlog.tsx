@@ -1,22 +1,18 @@
-// import HU from "@/components/projeto/hu/hu";
+import HU, { HUType } from "../hu";
 
-import HU from "@/components/projeto/hu";
-
-interface BacklogProps {
-  backlogId: number;
-  backlogName: string;
-  backlogDescription: string;
-  isProdBacklog: boolean;
-  huList: [];
+export interface BacklogType {
+  id: number;
+  idProjeto: number;
+  nome: string;
+  descricao: string;
+  sprint: boolean;
 }
 
-export default function Backlog({
-  backlogId,
-  backlogName,
-  backlogDescription,
-  isProdBacklog,
-  huList,
-}: BacklogProps) {
+interface BacklogProps {
+  backlog: BacklogType;
+}
+
+export default function Backlog({ backlog }: BacklogProps) {
   return (
     <div className="backlog">
       <p className="name-backlog">{backlogName}</p>

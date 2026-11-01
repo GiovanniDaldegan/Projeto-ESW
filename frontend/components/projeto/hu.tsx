@@ -1,35 +1,51 @@
-interface HUProps {
-  huId: number;
-  huName: string;
-  huDescr: string;
-  huTag: string;
-  huPoints: number;
-  huReach: number;
-  huImpact: number;
-  huConfidence: number;
-  huEffort: number;
+export interface HUType {
+  id: number;
+  idProjeto: number;
+  nome: string;
+  descricao: string;
+  tag: string;
+  pontos: number;
+  reach: number;
+  impact: number;
+  confidence: number;
+  effort: number;
 }
 
-export default function HU({
-  huId,
-  huName,
-  huDescr,
-  huTag,
-  huPoints,
-  huReach,
-  huImpact,
-  huConfidence,
-  huEffort,
-}: HUProps) {
+interface HUProps {
+  hu: HUType;
+}
+
+export default function HU({ hu }: HUProps) {
   return (
-    <div className="hu">
-      <p className="name-hu">{huName}</p>
-      <p className="description-hu">{huDescr}</p>
-      <span className="tag-hu">{huTag}</span>
-      <span className="points-hu">{huPoints}</span>
+    <div
+      className="hu"
+      onClick={() => {
+        // TODO: instanciar modal de HU
+      }}
+    >
+      <p className="name-hu">{hu.nome}</p>
+      <p className="description-hu">{hu.descricao}</p>
+      <span className="tag-hu">{hu.tag}</span>
+      <span className="points-hu">{hu.pontos}</span>
       <span className="rice-hu">
-        {(huReach * huImpact * huConfidence) / huEffort}
+        {(hu.reach * hu.impact * hu.confidence) / hu.effort}
       </span>
+      <button
+        className="button-edit-hu"
+        onClick={() => {
+          // TODO: instanciar modal de edição de HU
+        }}
+      >
+        X
+      </button>
+      <button
+        className="button-delete-hu"
+        onClick={() => {
+          // TODO: instanciar modal de confirmar exclusão
+        }}
+      >
+        X
+      </button>
     </div>
   );
 }
