@@ -1,3 +1,5 @@
+import { redirect, RedirectType } from 'next/navigation';
+
 export default function HeaderApp() {
   return (
     <div className="header-app">
@@ -5,7 +7,16 @@ export default function HeaderApp() {
 
       <div id="button-group-profile">
         <button id="button-profile">Perfil</button>
-        <button id="button-logoff">Sair</button>
+        <button
+          id="button-logoff"
+          onClick={() => {
+            localStorage.removeItem("usuario");
+            localStorage.removeItem("projeto");
+            redirect("/", RedirectType.replace);
+          }}
+        >
+          Sair
+        </button>
       </div>
     </div>
   );

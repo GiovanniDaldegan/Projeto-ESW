@@ -1,3 +1,5 @@
+import { redirect, RedirectType } from 'next/navigation';
+
 interface HeaderProjectProps {
   projectId: number;
   projectName: string;
@@ -12,12 +14,12 @@ export default function HeaderProject({
       <button
         className="button-back"
         onClick={() => {
-          // TODO: redirecionar para tela de painel de projetos
+          redirect("/projeto", RedirectType.push);
         }}
       >
         Projetos
       </button>
-      <h1 className="name-project">{projectName}</h1>
+      <h1 className="name-project">{projectName} #{projectId}</h1>
     </div>
   );
 }

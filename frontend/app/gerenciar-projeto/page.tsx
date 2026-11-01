@@ -2,17 +2,16 @@
 
 import HeaderApp from "@/components/headers/header-app";
 import HeaderProject from "@/components/headers/header-project";
+import ModalCriarEpico from "@/components/modal-epico";
 import { BacklogType } from "@/components/projeto/backlog/backlog";
 import PanelSprint from "@/components/projeto/backlog/panel-backlog";
 import { EpicType } from "@/components/projeto/epic/epic";
 import PanelEpic from "@/components/projeto/epic/panel-epic";
 import { getProjeto, ProjetoInfo } from "@/lib/projeto";
+import { redirect, RedirectType } from "next/navigation";
 import { useEffect, useState } from "react";
 
-// TODO: instanciação de modais on click
-
 export default function Page() {
-  const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
 
   const [projeto, setProjeto] = useState<ProjetoInfo | null>(null);
@@ -29,18 +28,15 @@ export default function Page() {
     const obterProjeto = () => {
       const proj = getProjeto();
       if (!proj) {
-        // TODO: caso projeto não esteja selecionado, redirecionar para tela de projetos
-        return false;
+        redirect("/projetos", RedirectType.replace);
       }
       setProjeto(proj);
     };
 
     const checarUsuario = () => {
       if (!getUsuarioLogado()) {
-        // TODO: caso usuário não esteja logado, manda para tela de login
-        return false;
-      }
-      return true;
+        redirect("/", RedirectType.replace);
+      } else return true;
     };
 
     const carregarBacklogs = async () => {
@@ -69,8 +65,6 @@ export default function Page() {
             ? err.message
             : "Falha ao conectar com o backend.",
         );
-      } finally {
-        setCarregando(false);
       }
     };
 
@@ -94,8 +88,6 @@ export default function Page() {
             ? err.message
             : "Falha ao conectar com o backend.",
         );
-      } finally {
-        setCarregando(false);
       }
     };
 
