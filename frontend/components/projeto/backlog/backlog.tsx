@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import HU, { HUType } from "../hu";
 
 export interface BacklogType {
@@ -13,30 +14,67 @@ interface BacklogProps {
 }
 
 export default function Backlog({ backlog }: BacklogProps) {
+  //const [erro, setErro] = useState<string | null>(null);
+  const [hus, setHUs] = useState<HUType[]>([]);
+  const [count, setCount] = useState<number>(0);
+
+  useEffect(() => {
+    const carregar = async () => {
+      try {
+        const response = await fetch(
+          `${API_URL}/historia-usuario?idBacklog=${backlog.id}`,
+        );
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            mensagemDeErro(
+              data,
+              `Erro ao carregar histórias de usuário do backlog #${backlog.id}.`,
+            ),
+          );
+        }
+
+        setHUs(data);
+      } catch (err) {
+        // TODO: avaliar como é a melhor forma de registrar erros em componentes
+        alert(
+          err instanceof Error
+            ? err.message
+            : "Falha ao conectar com o backend.",
+        );
+        /*
+        setErro(
+          err instanceof Error
+            ? err.message
+            : "Falha ao conectar com o backend.",
+        );
+        */
+      }
+    };
+
+    carregar();
+  }, [backlog.id]);
+
   return (
     <div className="backlog">
-      <p className="name-backlog">{backlogName}</p>
-      <p className="description-backlog">{backlogDescription}</p>
-      <p className="count-backlog">16</p>
+      <p className="name-backlog">{backlog.nome}</p>
+      <p className="description-backlog">{backlog.descricao}</p>
+      <span className="count-backlog">{count}</span>
 
-      <button className="edit-backlog">Editar</button>
-      {!isProdBacklog && (
-        <button className="button-delete-backlog">Excluir</button>
-      )}
+      <button
+        className="edit-backlog"
+        onClick={() => {
+          // TODO: instanciar modal de edição de backlog
+        }}
+      >
+        Editar
+      </button>
 
-      {HU({
-        // placeholder
-        huId: 1,
-        huName: "1",
-        huDescr: " 1",
-        huTag: "Must Have",
-        huPoints: 33,
-        huReach: 20,
-        huImpact: 2,
-        huConfidence: 0.8,
-        huEffort: 4,
+      {hus.map((hu) => {
+        setCount(count + 1);
+        return <HU key={hu.id} hu={hu} />;
       })}
-      {/* lista HU */}
     </div>
   );
 }

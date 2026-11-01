@@ -1,13 +1,33 @@
 import Backlog, { BacklogType } from "./backlog";
 
 interface PanelBacklogProps {
-  backlogList: BacklogType[];
+  productBacklog: BacklogType | null;
+  sprintList: BacklogType[];
 }
 
-export default function PanelBacklog({ backlogList }: PanelBacklogProps) {
+export default function PanelBacklog({
+  productBacklog,
+  sprintList,
+}: PanelBacklogProps) {
+  /*
+  const [backlogs, setBacklogs] = useState<BacklogType[]>([]);
+
+  useEffect(() => {
+    const carregar = async () => {
+      setBacklogs(backlogList);
+    };
+
+    carregar();
+  }, [backlogList]);
+  */
+
   return (
     <div className="panel-backlog">
-      {backlogs.map((backlog) => (
+      {productBacklog && (
+        <Backlog key={productBacklog.id} backlog={productBacklog} />
+      )}
+
+      {sprintList.map((backlog) => (
         <Backlog key={backlog.id} backlog={backlog} />
       ))}
 
