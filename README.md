@@ -21,17 +21,21 @@ Trabalho prático da disciplina Engenharia de Software, UnB 2026/2
 ├── LICENSE                                  # licença de uso do software
 │
 ├── documentos/
-│   └── <documento>                          # documento PDF do projeto
+│   └── <documento>.pdf                      # documento PDF do projeto
 │
 ├── frontend/
 │   ├── .gitignore                           # gitignore exclusivo do frontend
 │   │
-│   ├── app/                                 # roteador da aplicação
+│   ├── app/                                 # rotas da aplicação
+│   │   ├── page.tsx                         # rota: /
+│   │   └── <pagina>/
+│   │       ├── page.tsx                     # rota: /<pagina>
+│   │       └── <sub-pagina>/
+│   │           └── page.tsx                 # rota: /<pagina>/<sub-pagina> 
+│   │
 │   ├── public/                              # assets estáticos
 │   │
-│   ├── pages/                               # documento PDF do projeto
-│   │   └── pagina-app/
-│   │       └── page.tsx                     # página roteada para pagina-app
+│   ├── lib/                                 # scripts e bibliotecas auxiliares do frontend
 │   │
 │   └── components/                          # componentes React
 │       └── <grupo>/
