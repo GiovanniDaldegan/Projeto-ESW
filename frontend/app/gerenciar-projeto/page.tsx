@@ -108,9 +108,35 @@ export default function Page() {
           })}
       </header>
 
-      {PanelEpic({ epicList: epicos })}
+      {PanelEpic({
+        epicList: epicos,
+        clickNovoEpico: () => {
+          setModalEpicoAberto(true);
+        },
+      })}
 
-      {PanelSprint({ productBacklog: productBacklog, sprintList: sprints })}
+      {PanelSprint({
+        productBacklog: productBacklog,
+        sprintList: sprints,
+        clickNovaSprint: () => {
+          // setModalSprintAberto(true);
+        },
+      })}
+
+      {projeto && (
+        <ModalCriarEpico
+          idProjeto={projeto.id}
+          isOpen={modalEpicoAberto}
+          onClose={() => {
+            setModalEpicoAberto(false);
+          }}
+          onSuccess={(novoEpico) => {
+            setEpicos([...epicos, novoEpico]);
+          }}
+        />
+      )}
+
+      {/* TODO: modais de backlog/sprint (criar, editar, excluir), epico (editar, excluir), HU (criar, editar, excluir) */}
     </div>
   );
 }

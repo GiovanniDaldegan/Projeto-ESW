@@ -3,11 +3,13 @@ import Backlog, { BacklogType } from "./backlog";
 interface PanelBacklogProps {
   productBacklog: BacklogType | null;
   sprintList: BacklogType[];
+  clickNovaSprint: () => void;
 }
 
 export default function PanelBacklog({
   productBacklog,
   sprintList,
+  clickNovaSprint,
 }: PanelBacklogProps) {
   /*
   const [backlogs, setBacklogs] = useState<BacklogType[]>([]);
@@ -34,7 +36,7 @@ export default function PanelBacklog({
       <button
         className="button-new-backlog"
         onClick={() => {
-          // TODO: instanciar modal de novo backlog
+          clickNovaSprint();
         }}
       >
         + Novo Backlog
