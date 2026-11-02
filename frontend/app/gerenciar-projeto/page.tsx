@@ -1,6 +1,5 @@
 "use client";
 
-import HeaderApp from "@/components/headers/header-app";
 import HeaderProject from "@/components/headers/header-project";
 import ModalCriarEpico from "@/components/modal-epico";
 import { BacklogType } from "@/components/projeto/backlog/backlog";
@@ -99,8 +98,6 @@ export default function Page() {
   return (
     <div>
       <header className="header-page">
-        {HeaderApp()}
-
         {projeto &&
           HeaderProject({
             projectId: projeto.id,
