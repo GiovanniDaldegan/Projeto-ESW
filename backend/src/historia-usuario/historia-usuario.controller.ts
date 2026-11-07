@@ -7,6 +7,7 @@ import {
   Delete,
   Param,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { HistoriaUsuarioService } from './historia-usuario.service';
 import { CreateHistoriaUsuarioDto } from './dto/create-historia-usuario.dto';
@@ -24,8 +25,11 @@ export class HistoriaUsuarioController {
   }
 
   @Get()
-  async getAll() {
-    return this.historiaUsuarioService.getAll();
+  async getAll(
+    @Query('idBacklog', new ParseIntPipe({ optional: true })) idBacklog?: number,
+    @Query('idEpico', new ParseIntPipe({ optional: true })) idEpico?: number,
+  ) {
+    return this.historiaUsuarioService.getAll(idBacklog, idEpico);
   }
 
   @Get(':id')

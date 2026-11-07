@@ -18,8 +18,9 @@ export class ProjetoService {
     });
   }
 
-  async getAll() {
+  async getAll(idUsuario?: number) {
     return this.prisma.projeto.findMany({
+      where: { idUsuario },
       orderBy: { id: 'asc' },
     });
   }

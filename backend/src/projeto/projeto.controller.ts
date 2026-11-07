@@ -7,6 +7,7 @@ import {
   Delete,
   Param,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { ProjetoService } from './projeto.service';
 import { CreateProjetoDto } from './dto/create-projeto.dto';
@@ -22,8 +23,10 @@ export class ProjetoController {
   }
 
   @Get()
-  async getAll() {
-    return this.projetoService.getAll();
+  async getAll(
+    @Query('idUsuario', new ParseIntPipe({ optional: true })) idUsuario?: number,
+  ) {
+    return this.projetoService.getAll(idUsuario);
   }
 
   @Get(':id')
