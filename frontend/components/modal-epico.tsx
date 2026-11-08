@@ -1,25 +1,30 @@
 'use client';
 
 import { useState } from 'react';
+import ModalBase from '@/components/modal-base';
+import { chamarApi, textoDeErro } from '@/lib/api';
+import { botaoPrimario, botaoSecundario, caixaErro, inputClasse, labelClasse } from '@/lib/estilos';
+import type { Epico } from '@/lib/tipos';
 
 interface ModalCriarEpicoProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess: (novoEpico: any) => void;
+  onSuccess: (novoEpico: Epico) => void;
   idProjeto: number;
 }
 
-export default function ModalCriarEpico({
-  isOpen,
-  onClose,
-  onSuccess,
-  idProjeto,
-}: ModalCriarEpicoProps) {
+export default function ModalCriarEpico({ isOpen, onClose, onSuccess, idProjeto }: ModalCriarEpicoProps) {
   const [nome, setNome] = useState('');
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
 
   if (!isOpen) return null;
+
+  const fechar = () => {
+    setNome('');
+    setErro(null);
+    onClose();
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,92 +32,50 @@ export default function ModalCriarEpico({
     setErro(null);
 
     try {
-      // Rota no singular conforme definido no @Controller('epico')
-      const response = await fetch('http://localhost:3001/epico', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nome: nome.trim(),
-          idProjeto: Number(idProjeto),
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        const msg = Array.isArray(data.message) ? data.message.join(', ') : data.message;
-        throw new Error(msg || 'Erro ao cadastrar épico.');
-      }
-
-      setNome('');
-      onSuccess(data);
-      onClose();
-    } catch (err: any) {
-      setErro(err.message || 'Falha ao conectar com o backend.');
+      const novo = await chamarApi<Epico>(
+        '/epico',
+        { method: 'POST', body: { nome: nome.trim(), idProjeto: Number(idProjeto) } },
+        'Erro ao cadastrar épico.',
+      );
+      onSuccess(novo);
+      fechar();
+    } catch (err) {
+      setErro(textoDeErro(err));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="w-full max-w-sm rounded-xl bg-[#1e232d] border border-gray-700/60 shadow-2xl p-6 text-gray-100">
-        <div className="flex items-center justify-between border-b border-gray-700/50 pb-3">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-            <h2 className="text-base font-semibold text-white">Novo Épico</h2>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
-          >
-            ✕
-          </button>
+    <ModalBase titulo="Novo épico" onClose={fechar}>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label htmlFor="nome-epico" className={labelClasse}>
+            Nome do épico
+          </label>
+          <input
+            id="nome-epico"
+            type="text"
+            required
+            autoFocus
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            placeholder="Ex: Autenticação"
+            className={inputClasse}
+          />
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-          <div>
-            <label className="block text-xs font-medium text-gray-300 mb-1.5">
-              Título do Épico
-            </label>
-            <input
-              type="text"
-              required
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              placeholder="Ex: Autenticação e Perfis"
-              className="w-full rounded-lg bg-[#141820] border border-gray-700 px-3.5 py-2.5 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
-            />
-          </div>
+        {erro && <p className={caixaErro}>{erro}</p>}
 
-          <div className="text-xs text-gray-400">
-            Vinculado ao Projeto ID: <span className="font-mono text-gray-200">#{idProjeto}</span>
-          </div>
-
-          {erro && (
-            <p className="text-xs text-red-400 bg-red-950/40 border border-red-800/40 rounded p-2.5">
-              {erro}
-            </p>
-          )}
-
-          <div className="flex justify-end gap-2.5 pt-2 border-t border-gray-700/50">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-xs font-medium text-gray-400 hover:text-white hover:bg-gray-800/60 rounded-lg transition-colors"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              disabled={loading || !nome.trim()}
-              className="px-4 py-2 text-xs font-medium bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white rounded-lg shadow transition-colors"
-            >
-              {loading ? 'Salvando...' : 'Adicionar Épico'}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+        <div className="flex justify-end gap-2.5 border-t border-[#efe9e1] pt-4">
+          <button type="button" onClick={fechar} className={botaoSecundario}>
+            Cancelar
+          </button>
+          <button type="submit" disabled={loading || !nome.trim()} className={botaoPrimario}>
+            {loading ? 'Salvando...' : 'Criar épico'}
+          </button>
+        </div>
+      </form>
+    </ModalBase>
   );
 }

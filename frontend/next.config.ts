@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
     agentFeedback: true,
   },
   cacheComponents: true,
+  // A raiz não tem conteúdo próprio: manda direto para a tela de login
+  redirects() {
+    return [{ source: '/', destination: '/login', permanent: false }];
+  },
   partialPrefetching: true,
   turbopack: {
     rules: {
