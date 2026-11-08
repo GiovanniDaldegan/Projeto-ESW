@@ -21,7 +21,6 @@ const outfit = Outfit({ subsets: ["latin"] });
 type EstadoModalHistoria = { hu: HistoriaUsuario | null; idBacklog: number } | null;
 type EstadoModalBacklog = { sprint: boolean; backlog: Backlog | null; excluir?: boolean } | null;
 
-// Insere ou substitui pelo id
 function upsert<T extends { id: number }>(lista: T[], item: T) {
   return lista.some((x) => x.id === item.id)
     ? lista.map((x) => (x.id === item.id ? item : x))
@@ -44,13 +43,11 @@ export default function Page() {
   const [modalBacklog, setModalBacklog] = useState<EstadoModalBacklog>(null);
   const [modalEpicoAberto, setModalEpicoAberto] = useState(false);
 
-  // Carrega tudo uma única vez ao abrir a tela. As dependências não podem incluir
-  // os estados preenchidos aqui, senão vira um loop de requisições.
+  // Não incluir nas dependências os estados preenchidos aqui: vira um loop de requisições
   useEffect(() => {
     let cancelado = false;
 
     const carregar = async () => {
-      // redirect() não funciona dentro de useEffect; aqui é preciso usar o router
       if (!getUsuarioLogado()) {
         router.replace("/login");
         return;
@@ -119,7 +116,6 @@ export default function Page() {
   const backlogExcluido = (backlog: Backlog) => {
     if (backlog.sprint) setSprints((atuais) => atuais.filter((b) => b.id !== backlog.id));
     else setBacklogs((atuais) => atuais.filter((b) => b.id !== backlog.id));
-    // o backend apaga as histórias do backlog em cascata
     setHus((atuais) => atuais.filter((hu) => hu.idBacklog !== backlog.id));
   };
 
@@ -164,7 +160,6 @@ export default function Page() {
         )}
       </main>
 
-      {/* Os modais só montam quando abertos, assim o estado inicial vem sempre dos dados atuais */}
       {projeto && modalHistoria && (
         <ModalHistoria
           hu={modalHistoria.hu}

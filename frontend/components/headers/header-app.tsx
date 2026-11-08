@@ -8,7 +8,6 @@ export default function HeaderApp() {
   const sair = () => {
     localStorage.removeItem('usuario');
     localStorage.removeItem('projeto');
-    // redirect() não funciona em event handlers; usa o router
     router.replace('/login');
   };
 

@@ -30,7 +30,6 @@ export default function PanelBacklog({
 }: PanelBacklogProps) {
   return (
     <div className="flex items-start gap-5">
-      {/* Criar um projeto não cria o product backlog, então oferece a criação aqui */}
       {backlogs.length === 0 && (
         <section className="flex w-80 shrink-0 flex-col gap-3">
           <div className="flex items-center gap-2 px-1">

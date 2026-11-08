@@ -17,7 +17,6 @@ export default function CardProjeto({ projeto }: CardProjetoProps) {
   return (
     <Link
       href="/gerenciar-projeto"
-      // A tela do projeto lê o projeto selecionado do localStorage (lib/projeto)
       onClick={() => setProjeto(projeto)}
       className="flex flex-col gap-4 rounded-2xl border border-[#e7e1d8] bg-white p-5 shadow-sm transition-all hover:border-[#4a7bd0] hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4a7bd0]"
     >

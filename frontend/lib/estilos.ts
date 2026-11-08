@@ -1,4 +1,3 @@
-// Classes compartilhadas pelos formulários e modais (mesma paleta da tela de projetos)
 export const inputClasse =
   'w-full rounded-lg border border-[#e7e1d8] bg-white px-3.5 py-2.5 text-sm text-[#2b2622] placeholder-[#b5aca4] transition-all focus:border-[#4a7bd0] focus:outline-none focus:ring-1 focus:ring-[#4a7bd0]';
 

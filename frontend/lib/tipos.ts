@@ -1,4 +1,3 @@
-// Formato das entidades como o backend devolve
 export interface Backlog {
   id: number;
   idProjeto: number;

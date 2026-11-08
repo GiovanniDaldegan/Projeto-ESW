@@ -9,7 +9,6 @@ interface ModalBaseProps {
   largura?: string;
 }
 
-// Moldura comum dos modais: fundo escurecido, título, botão de fechar e Esc para sair
 export default function ModalBase({ titulo, onClose, children, largura = 'max-w-md' }: ModalBaseProps) {
   useEffect(() => {
     const aoTeclar = (e: KeyboardEvent) => {

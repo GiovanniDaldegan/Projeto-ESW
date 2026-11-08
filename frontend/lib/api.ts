@@ -6,7 +6,6 @@ export function mensagemDeErro(data: { message?: string | string[] }, padrao: st
   return msg || padrao;
 }
 
-// Chamada direta ao backend: lança Error com a mensagem do Nest quando a resposta não é ok
 export async function chamarApi<T>(
   caminho: string,
   opcoes: { method?: 'GET' | 'POST' | 'PATCH' | 'DELETE'; body?: unknown } = {},

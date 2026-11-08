@@ -40,7 +40,6 @@ export default function LoginPage() {
         if (!response.ok) {
           throw new Error(mensagemDeErro(data, 'Erro ao criar conta.'));
         }
-        // POST /usuario já devolve { id, nome, email }: entra direto
         setUsuarioLogado(data);
       } else {
         const response = await fetch(`${API_URL}/auth/login`, {

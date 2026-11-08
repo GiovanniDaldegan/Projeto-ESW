@@ -18,7 +18,6 @@ interface BacklogProps {
 const botaoIcone =
   'rounded-md p-1.5 text-[#7a716a] transition-colors hover:bg-white hover:text-[#2b2622]';
 
-// Coluna do quadro: serve tanto para o product backlog quanto para as sprints
 export default function Backlog({
   backlog,
   hus,

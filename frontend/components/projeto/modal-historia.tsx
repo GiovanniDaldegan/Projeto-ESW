@@ -16,7 +16,7 @@ import { calcularRice, montarHistoria, MSCW, separarHistoria, type Mscw } from '
 import type { Backlog, CriterioAceitacao, Epico, HistoriaUsuario } from '@/lib/tipos';
 
 interface ModalHistoriaProps {
-  hu: HistoriaUsuario | null; // null = criação
+  hu: HistoriaUsuario | null;
   idBacklogInicial: number;
   backlogs: Backlog[];
   epicos: Epico[];
@@ -27,7 +27,6 @@ interface ModalHistoriaProps {
 
 type Aba = 'historia' | 'pontuacao' | 'criterios';
 
-// Critério em edição: sem `id` ainda não existe no backend
 interface CriterioEdicao {
   chave: string;
   id?: number;
@@ -66,7 +65,6 @@ export default function ModalHistoria({
 }: ModalHistoriaProps) {
   const partes = hu ? separarHistoria(hu.historia) : null;
 
-  // Depois do primeiro POST a história passa a existir; um novo "salvar" vira PATCH
   const [huAtual, setHuAtual] = useState<HistoriaUsuario | null>(hu);
   const [aba, setAba] = useState<Aba>('historia');
 
@@ -185,7 +183,6 @@ export default function ModalHistoria({
       return;
     }
 
-    // Critérios dependem do id da história, por isso vão depois dela
     const texto = (c: CriterioEdicao) => ({ dado: c.dado.trim(), quando: c.quando.trim(), entao: c.entao.trim() });
     const operacoes = [
       ...removidos.map((id) => chamarApi(`/criterio-aceitacao/${id}`, { method: 'DELETE' })),
@@ -262,7 +259,6 @@ export default function ModalHistoria({
           </button>
         </div>
 
-        {/* ---------- Aba História ---------- */}
         {aba === 'historia' && (
           <div className="mt-5 space-y-4">
             <div className="rounded-xl bg-[#f4f1ec] p-4">
@@ -306,7 +302,6 @@ export default function ModalHistoria({
           </div>
         )}
 
-        {/* ---------- Aba Pontuação ---------- */}
         {aba === 'pontuacao' && (
           <div className="mt-5 space-y-5">
             <div>
@@ -369,7 +364,6 @@ export default function ModalHistoria({
           </div>
         )}
 
-        {/* ---------- Aba Critérios ---------- */}
         {aba === 'criterios' && (
           <div className="mt-5 space-y-4">
             {carregandoCriterios ? (
@@ -444,7 +438,6 @@ export default function ModalHistoria({
 
         {erro && <p className={`mt-4 ${caixaErro}`}>{erro}</p>}
 
-        {/* ---------- Rodapé ---------- */}
         <div className="mt-6 flex items-center justify-between gap-2.5 border-t border-[#efe9e1] pt-4">
           {huAtual && !confirmandoExclusao && (
             <button type="button" onClick={() => setConfirmandoExclusao(true)} className={botaoPerigo}>

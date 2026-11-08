@@ -1,4 +1,3 @@
-// Ícones simples em SVG (herdam a cor do texto via currentColor)
 type IconeProps = { className?: string };
 
 const base = {

@@ -16,9 +16,9 @@ import type { Backlog } from '@/lib/tipos';
 interface ModalBacklogProps {
   idProjeto: number;
   sprint: boolean;
-  backlog: Backlog | null; // null = criação
+  backlog: Backlog | null;
   totalHistorias: number;
-  confirmarExclusao?: boolean; // abre direto na confirmação (botão de lixeira da coluna)
+  confirmarExclusao?: boolean;
   onClose: () => void;
   onSaved: (backlog: Backlog) => void;
   onDeleted: (backlog: Backlog) => void;
@@ -41,7 +41,6 @@ export default function ModalBacklog({
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
 
-  // /sprint e /backlog usam a mesma tabela, mas rotas diferentes
   const rota = sprint ? '/sprint' : '/backlog';
   const tipo = sprint ? 'sprint' : 'backlog';
   const titulo = backlog ? `Editar ${tipo}` : sprint ? 'Nova sprint' : 'Novo backlog';

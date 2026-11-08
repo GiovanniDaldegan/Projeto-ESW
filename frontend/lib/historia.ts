@@ -7,7 +7,6 @@ export const MSCW = {
 
 export type Mscw = keyof typeof MSCW;
 
-// O backend guarda a história num único texto; a tela monta e separa no formato padrão
 export function montarHistoria(papel: string, acao: string, beneficio: string) {
   return `Como um ${papel.trim()}, eu quero ${acao.trim()} para ${beneficio.trim()}`;
 }
