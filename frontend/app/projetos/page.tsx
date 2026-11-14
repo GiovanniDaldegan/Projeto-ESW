@@ -17,6 +17,7 @@ export default function ProjetosPage() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
   const [modalAberto, setModalAberto] = useState(false);
+  const [projetoEditando, setProjetoEditando] = useState<Projeto | null>(null);
 
   useEffect(() => {
     let cancelado = false;
@@ -42,12 +43,28 @@ export default function ProjetosPage() {
         if (!cancelado) setCarregando(false);
       }
     };
-
     carregar();
     return () => {
       cancelado = true;
     };
   }, []);
+
+  const excluirProjeto = async (id: number) => {
+    try {
+      const response = await fetch(`${API_URL}/projeto/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(mensagemDeErro(data, 'Erro ao excluir projeto.'));
+      }
+
+      setProjetos((atuais) => atuais.filter((p) => p.id !== id));
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Falha ao excluir o projeto.');
+    }
+  };
 
   return (
     <div className={`${outfit.className} flex-1 bg-[#f4f1ec] text-[#2b2622]`}>
@@ -61,7 +78,7 @@ export default function ProjetosPage() {
           {usuario && (
             <button
               type="button"
-              onClick={() => setModalAberto(true)}
+              onClick={() => {setProjetoEditando(null); setModalAberto(true);}}
               className="shrink-0 rounded-lg bg-[#4a7bd0] px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#3f6cbc]"
             >
               + Novo projeto
@@ -85,7 +102,12 @@ export default function ProjetosPage() {
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {projetos.map((projeto) => (
-                <CardProjeto key={projeto.id} projeto={projeto} />
+                <CardProjeto key={projeto.id} projeto={projeto}
+                  onEdit={(proj) => {
+                    setProjetoEditando(proj);
+                    setModalAberto(true);
+                  }}
+                  onDelete={excluirProjeto} />
               ))}
             </div>
           )}
@@ -95,8 +117,18 @@ export default function ProjetosPage() {
       {usuario && (
         <ModalCriarProjeto
           isOpen={modalAberto}
-          onClose={() => setModalAberto(false)}
-          onSuccess={(novo) => setProjetos((atuais) => [...atuais, novo])}
+          projeto={projetoEditando}
+          onClose={() => {
+            setModalAberto(false);
+            setProjetoEditando(null);
+          }}
+          onSuccess={(salvo) =>
+            setProjetos((atuais) =>
+              atuais.some((p) => p.id === salvo.id)
+                ? atuais.map((p) => (p.id === salvo.id ? salvo : p))
+                : [...atuais, salvo],
+            )
+          }
           idUsuario={usuario.id}
         />
       )}
