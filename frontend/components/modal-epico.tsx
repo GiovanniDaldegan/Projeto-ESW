@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalBase from '@/components/modal-base';
 import { chamarApi, textoDeErro } from '@/lib/api';
 import { botaoPrimario, botaoSecundario, caixaErro, inputClasse, labelClasse } from '@/lib/estilos';
@@ -9,14 +9,26 @@ import type { Epico } from '@/lib/tipos';
 interface ModalCriarEpicoProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess: (novoEpico: Epico) => void;
+  onSuccess: (epicoSalvo: Epico) => void;
   idProjeto: number;
+  epico?: Epico | null;
 }
 
-export default function ModalCriarEpico({ isOpen, onClose, onSuccess, idProjeto }: ModalCriarEpicoProps) {
+export default function ModalCriarEpico({
+  isOpen,
+  onClose,
+  onSuccess,
+  idProjeto,
+  epico,
+}: ModalCriarEpicoProps) {
   const [nome, setNome] = useState('');
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
+
+  useEffect(() => {
+    setNome(epico ? epico.nome : '');
+    setErro(null);
+  }, [epico, isOpen]);
 
   if (!isOpen) return null;
 
@@ -32,12 +44,19 @@ export default function ModalCriarEpico({ isOpen, onClose, onSuccess, idProjeto 
     setErro(null);
 
     try {
-      const novo = await chamarApi<Epico>(
-        '/epico',
-        { method: 'POST', body: { nome: nome.trim(), idProjeto: Number(idProjeto) } },
-        'Erro ao cadastrar épico.',
-      );
-      onSuccess(novo);
+      const salvo = epico
+        ? await chamarApi<Epico>(
+            `/epico/${epico.id}`,
+            { method: 'PATCH', body: { nome: nome.trim() } },
+            'Erro ao editar épico.',
+          )
+        : await chamarApi<Epico>(
+            '/epico',
+            { method: 'POST', body: { nome: nome.trim(), idProjeto: Number(idProjeto) } },
+            'Erro ao cadastrar épico.',
+          );
+
+      onSuccess(salvo);
       fechar();
     } catch (err) {
       setErro(textoDeErro(err));
@@ -47,7 +66,7 @@ export default function ModalCriarEpico({ isOpen, onClose, onSuccess, idProjeto 
   };
 
   return (
-    <ModalBase titulo="Novo épico" onClose={fechar}>
+    <ModalBase titulo={epico ? 'Editar épico' : 'Novo épico'} onClose={fechar}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="nome-epico" className={labelClasse}>
@@ -72,7 +91,7 @@ export default function ModalCriarEpico({ isOpen, onClose, onSuccess, idProjeto 
             Cancelar
           </button>
           <button type="submit" disabled={loading || !nome.trim()} className={botaoPrimario}>
-            {loading ? 'Salvando...' : 'Criar épico'}
+            {loading ? 'Salvando...' : epico ? 'Salvar' : 'Criar épico'}
           </button>
         </div>
       </form>

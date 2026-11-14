@@ -37,6 +37,7 @@ export default function Page() {
   const [hus, setHus] = useState<HistoriaUsuario[]>([]);
   const [totalCriterios, setTotalCriterios] = useState<Record<number, number>>({});
   const [carregando, setCarregando] = useState(true);
+  const [epicoEditando, setEpicoEditando] = useState<Epico | null>(null);
   const [erro, setErro] = useState<string | null>(null);
 
   const [modalHistoria, setModalHistoria] = useState<EstadoModalHistoria>(null);
@@ -113,6 +114,16 @@ export default function Page() {
     else setBacklogs((atuais) => upsert(atuais, backlog));
   };
 
+  const excluirEpico = async (id: number) => {
+    try {
+      await chamarApi(`/epico/${id}`, { method: "DELETE" }, "Erro ao excluir épico.");
+      setEpicos((atuais) => atuais.filter((e) => e.id !== id));
+      setHus((atuais) => atuais.map((hu) => (hu.idEpico === id ? { ...hu, idEpico: null } : hu)));
+    } catch (err) {
+      alert(textoDeErro(err));
+    }
+  };
+
   const backlogExcluido = (backlog: Backlog) => {
     if (backlog.sprint) setSprints((atuais) => atuais.filter((b) => b.id !== backlog.id));
     else setBacklogs((atuais) => atuais.filter((b) => b.id !== backlog.id));
@@ -136,7 +147,19 @@ export default function Page() {
       {projeto && <HeaderProject projectName={projeto.nome} onNovaSprint={novaSprint} />}
 
       <main className="flex flex-1 items-start gap-5 overflow-x-auto p-6">
-        <PanelEpic epicList={epicos} corEpico={corEpico} clickNovoEpico={() => setModalEpicoAberto(true)} />
+        <PanelEpic
+          epicList={epicos}
+          corEpico={corEpico}
+          clickNovoEpico={() => {
+            setEpicoEditando(null);
+            setModalEpicoAberto(true);
+          }}
+          onEditarEpico={(epico) => {
+            setEpicoEditando(epico);
+            setModalEpicoAberto(true);
+          }}
+          onExcluirEpico={excluirEpico}
+        />
 
         {carregando ? (
           <p className="text-sm text-[#7a716a]">Carregando projeto...</p>
@@ -190,9 +213,13 @@ export default function Page() {
       {projeto && (
         <ModalCriarEpico
           idProjeto={projeto.id}
+          epico={epicoEditando}
           isOpen={modalEpicoAberto}
-          onClose={() => setModalEpicoAberto(false)}
-          onSuccess={(novo) => setEpicos((atuais) => [...atuais, novo])}
+          onClose={() => {
+            setModalEpicoAberto(false);
+            setEpicoEditando(null);
+          }}
+          onSuccess={(salvo) => setEpicos((atuais) => upsert(atuais, salvo))}
         />
       )}
     </div>
