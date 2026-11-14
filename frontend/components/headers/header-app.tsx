@@ -1,23 +1,26 @@
-import { redirect, RedirectType } from 'next/navigation';
+'use client';
+
+import { useRouter } from 'next/navigation';
 
 export default function HeaderApp() {
-  return (
-    <div className="header-app">
-      <p className="title-app">Compreendendo o Ponto</p>
+  const router = useRouter();
 
-      <div id="button-group-profile">
-        <button id="button-profile">Perfil</button>
-        <button
-          id="button-logoff"
-          onClick={() => {
-            localStorage.removeItem("usuario");
-            localStorage.removeItem("projeto");
-            redirect("/", RedirectType.replace);
-          }}
-        >
-          Sair
-        </button>
-      </div>
-    </div>
+  const sair = () => {
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('projeto');
+    router.replace('/login');
+  };
+
+  return (
+    <header className="flex h-14 shrink-0 items-center justify-between border-b border-[#e7e1d8] bg-white px-6">
+      <p className="text-base font-bold text-[#2b2622]">Compreendendo o Ponto</p>
+      <button
+        type="button"
+        onClick={sair}
+        className="rounded-lg px-3 py-1.5 text-sm font-medium text-[#7a716a] transition-colors hover:bg-[#f4f1ec] hover:text-[#2b2622]"
+      >
+        Sair
+      </button>
+    </header>
   );
 }

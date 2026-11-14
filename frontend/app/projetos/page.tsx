@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Outfit } from 'next/font/google';
+import HeaderApp from '@/components/headers/header-app';
 import CardProjeto, { type Projeto } from '@/components/projetos/card-projeto';
 import ModalCriarProjeto from '@/components/projetos/modal-projeto';
 import { API_URL, mensagemDeErro } from '@/lib/api';
@@ -50,6 +51,7 @@ export default function ProjetosPage() {
 
   return (
     <div className={`${outfit.className} flex-1 bg-[#f4f1ec] text-[#2b2622]`}>
+      <HeaderApp />
       <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6">
         <header className="flex items-start justify-between gap-4">
           <div>

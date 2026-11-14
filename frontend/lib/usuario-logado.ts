@@ -4,7 +4,6 @@ export interface UsuarioLogado {
   email: string;
 }
 
-// A tela de login deve salvar aqui o `usuario` retornado por POST /auth/login
 const CHAVE = 'usuario';
 
 export function getUsuarioLogado(): UsuarioLogado | null {

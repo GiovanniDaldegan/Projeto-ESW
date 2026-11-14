@@ -1,60 +1,15 @@
-import { useEffect, useState } from "react";
-import { HUType } from "../hu";
-
-export interface EpicType {
-  id: number;
-  idProjeto: number;
-  nome: string;
-  descricao: string;
-}
+import type { Epico } from '@/lib/tipos';
 
 interface EpicProps {
-  epic: EpicType;
+  epic: Epico;
+  cor: string;
 }
 
-export default function Epic({ epic }: EpicProps) {
-  const [hus, setHUs] = useState<HUType[]>([]);
-
-  useEffect(() => {
-    const carregar = async () => {
-      try {
-        const response = await fetch(
-          `${API_URL}/historia-usuario?idEpic=${epic.id}`,
-        );
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(
-            mensagemDeErro(
-              data,
-              `Erro ao carregar histórias de usuário do épico #${epic.id}.`,
-            ),
-          );
-        }
-
-        setHUs(data);
-      } catch (err) {
-        // TODO: avaliar como é a melhor forma de registrar erros em componentes
-        alert(
-          err instanceof Error
-            ? err.message
-            : "Falha ao conectar com o backend.",
-        );
-      }
-    };
-
-    carregar();
-  }, [epic.id]);
-
+export default function Epic({ epic, cor }: EpicProps) {
   return (
-    <div
-      className="epic"
-      // onClick={() => {
-      //   // TODO: instanciar modal de HUs atribuídas ??
-      // }}
-    >
-      <p className="title-epic">{epic.nome}</p>
-      <p className="description-epic">{epic.descricao}</p>
-    </div>
+    <li className="flex items-center gap-2.5 text-sm">
+      <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: cor }} />
+      <span className="truncate">{epic.nome}</span>
+    </li>
   );
 }
